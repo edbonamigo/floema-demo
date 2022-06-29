@@ -1,0 +1,33 @@
+{
+  "name": "bonlerplate",
+  "author": "Eduardo Bonamigo <edbmuller@gmail.com>",
+  "license": "ISC",
+  "repository": "https://github.com/edbonamigo/bonlerplate.git",
+  "homepage": "edubon.code",
+  "source": [
+    "src/index.html"
+  ],
+  "scripts": {
+    "backend:build": "node src/app.js",
+    "backend:dev": "nodemon src/app.js",
+    "frontend:watch": "parcel watch --public-url ./",
+    "frontend:build": "parcel build --public-url ./",
+    "start": "concurrently --kill-others \"yarn run backend:dev\" \"yarn run frontend:watch\""
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "2.6.2",
+    "concurrently": "^7.2.2",
+    "eslint": "^8.0.1",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-import-resolver-parcel2": "^1.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "nodemon": "^2.0.18",
+    "parcel": "^2.6.2",
+    "pug": "^3.0.2"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
