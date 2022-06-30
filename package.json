@@ -7,6 +7,7 @@
   "source": [
     "src/index.html"
   ],
+  "type": "module",
   "scripts": {
     "backend:build": "node src/app.js",
     "backend:dev": "nodemon src/app.js",
@@ -28,6 +29,11 @@
     "pug": "^3.0.2"
   },
   "dependencies": {
-    "express": "^4.18.1"
+    "@prismicio/client": "^6.6.1",
+    "@prismicio/helpers": "^2.3.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "node-fetch": "^3.2.6",
+    "url": "^0.11.0"
   }
 }
