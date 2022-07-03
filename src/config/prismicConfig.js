@@ -15,26 +15,26 @@ const accessToken = process.env.PRISMIC_ACCESS_TOKEN // If your repository is pr
 // Types in your project, and edit the paths to match the routing in your
 // project.
 const routes = [
-  {
-    type: 'home',
-    path: '/'
-  },
-  {
-    type: 'about',
-    path: '/about'
-  },
-  {
-    type: 'collection',
-    path: '/collections'
-  },
-  {
-    type: 'product',
-    path: '/detail/:uid'
-  }
+	{
+		type: 'home',
+		path: '/'
+	},
+	{
+		type: 'about',
+		path: '/about'
+	},
+	{
+		type: 'collection',
+		path: '/collections/:uid'
+	},
+	{
+		type: 'product',
+		path: '/detail/:uid'
+	}
 ]
 
 export const client = prismic.createClient(repoName, {
-  fetch,
-  accessToken,
-  routes
+	fetch,
+	accessToken,
+	routes
 })

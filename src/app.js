@@ -1,8 +1,9 @@
 import dotenv from 'dotenv'
 import path from 'path'
 import express from 'express'
+import errorHandler from 'errorhandler'
 import { fileURLToPath } from 'url'
-import * as prismicH from '@prismicio/helpers'
+import * as PrismicH from '@prismicio/helpers'
 import { client } from './config/prismicConfig.js'
 
 dotenv.config()
@@ -12,17 +13,21 @@ const port = process.env.PORT || 3000
 
 // Set Pug as template engine
 app.set('view engine', 'pug')
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-app.set('views', path.join(__dirname, 'views'))
+app.set(
+	'views',
+	path.join(path.dirname(fileURLToPath(import.meta.url)), 'views')
+)
+
+app.use(errorHandler())
 
 // Middleware function, runs on every route.
 // It Inject prismic context to the locals so that we can access these in
-// our templates.
+// our pug templates.
 app.use((req, res, next) => {
-  res.locals.ctx = {
-    prismicH
-  }
-  next()
+	res.locals.ctx = {
+		PrismicH
+	}
+	next()
 })
 
 /**
@@ -30,26 +35,39 @@ app.use((req, res, next) => {
  */
 
 app.get('/', async (req, res) => {
-  // Here we are retrieving the first document from your API endpoint
-  const response = await client.getSingle('home')
-  console.log(response)
-  res.render('pages/home')
+	const meta = await client.getSingle('metadata')
+
+	res.render('pages/home', { meta })
 })
-// app.get('/', (req, res) => res.render('pages/home'))
 
 app.get('/about', async (req, res) => {
-  // Here we are retrieving the first document from your API endpoint
-  const about = await client.getSingle('about')
-  const meta = await client.getSingle('metadata')
+	const meta = await client.getSingle('metadata')
+	const about = await client.getSingle('about')
 
-  res.render('pages/about', { about, meta })
+	res.render('pages/about', { about, meta })
 })
-// app.get('/about', (req, res) => res.render('pages/about'))
 
-app.get('/collections', (req, res) => res.render('pages/collections'))
-app.get('/details/:uid', (req, res) => res.render('pages/details'))
+app.get('/collections/:uid', async (req, res) => {
+	const meta = await client.getSingle('metadata')
+	const collection = await client.getByUID('collection', req.params.uid)
+
+	console.log(collection)
+
+	res.render('pages/collections', { collection, meta })
+})
+
+app.get('/detail/:uid', async (req, res) => {
+	const meta = await client.getSingle('metadata')
+	const product = await client.getByUID('product', req.params.uid, {
+		fetchLinks: 'collection.title'
+	})
+
+	console.log(product)
+
+	res.render('pages/detail', { product, meta })
+})
 
 app.listen(port, () => {
-  console.log(`App listening on port ${port}!
+	console.log(`App listening on port ${port}!
   =======================`)
 })
