@@ -25,7 +25,7 @@ const routes = [
 	},
 	{
 		type: 'collection',
-		path: '/collections/:uid'
+		path: '/collections'
 	},
 	{
 		type: 'product',

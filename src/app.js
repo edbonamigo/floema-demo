@@ -1,7 +1,10 @@
 import dotenv from 'dotenv'
 import path from 'path'
+import logger from 'morgan'
 import express from 'express'
 import errorHandler from 'errorhandler'
+import bodyParser from 'body-parser'
+import methodOverride from 'method-override'
 import { fileURLToPath } from 'url'
 import * as PrismicH from '@prismicio/helpers'
 import { client } from './config/prismicConfig.js'
@@ -9,7 +12,47 @@ import { client } from './config/prismicConfig.js'
 dotenv.config()
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = 3000
+
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(methodOverride())
+app.use(errorHandler())
+
+const handleLinkResolver = (doc) => {
+	if (doc.type === 'about') {
+		return `/about`
+	}
+
+	if (doc.type === 'collections') {
+		return `/collections`
+	}
+
+	if (doc.type === 'product') {
+		return `/detail/${doc.slug}`
+	}
+
+	return '/'
+}
+
+const NumbersByIndex = {
+	0: 'One',
+	1: 'Two',
+	2: 'Three',
+	3: 'Four',
+	4: 'Five'
+}
+
+// Inject js stuff into pug templates
+app.use((req, res, next) => {
+	res.locals.ctx = {
+		PrismicH
+	}
+	res.locals.Link = handleLinkResolver
+	res.locals.Number = NumbersByIndex
+	next()
+})
 
 // Set Pug as template engine
 app.set('view engine', 'pug')
@@ -18,53 +61,68 @@ app.set(
 	path.join(path.dirname(fileURLToPath(import.meta.url)), 'views')
 )
 
-app.use(errorHandler())
-
-// Middleware function, runs on every route.
-// It Inject prismic context to the locals so that we can access these in
-// our pug templates.
-app.use((req, res, next) => {
-	res.locals.ctx = {
-		PrismicH
-	}
-	next()
-})
-
 /**
  * ROUTES
  */
 
-app.get('/', async (req, res) => {
+const handleRequest = async () => {
 	const meta = await client.getSingle('metadata')
+	const navigation = await client.getSingle('navigation')
+	const preloader = await client.getSingle('preloader')
 
-	res.render('pages/home', { meta })
+	return {
+		meta,
+		navigation,
+		preloader
+	}
+}
+
+app.get('/', async (req, res) => {
+	const defaults = await handleRequest()
+	const collections = await client.getAllByType('collection')
+	const home = await client.getSingle('home')
+
+	res.render('pages/home', {
+		...defaults,
+		collections,
+		home
+	})
 })
 
 app.get('/about', async (req, res) => {
-	const meta = await client.getSingle('metadata')
+	const defaults = await handleRequest()
 	const about = await client.getSingle('about')
 
-	res.render('pages/about', { about, meta })
+	res.render('pages/about', {
+		...defaults,
+		about
+	})
 })
 
-app.get('/collections/:uid', async (req, res) => {
-	const meta = await client.getSingle('metadata')
-	const collection = await client.getByUID('collection', req.params.uid)
+app.get('/collections', async (req, res) => {
+	const defaults = await handleRequest()
+	const collections = await client.getAllByType('collection', {
+		fetchLinks: 'product.image'
+	})
+	const home = await client.getSingle('home')
 
-	console.log(collection)
-
-	res.render('pages/collections', { collection, meta })
+	res.render('pages/collections', {
+		...defaults,
+		collections,
+		home
+	})
 })
 
 app.get('/detail/:uid', async (req, res) => {
-	const meta = await client.getSingle('metadata')
+	const defaults = await handleRequest()
 	const product = await client.getByUID('product', req.params.uid, {
 		fetchLinks: 'collection.title'
 	})
 
-	console.log(product)
-
-	res.render('pages/detail', { product, meta })
+	res.render('pages/detail', {
+		...defaults,
+		product
+	})
 })
 
 app.listen(port, () => {
