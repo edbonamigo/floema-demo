@@ -23,8 +23,8 @@ block content
 
               .about__content__description!=ctx.PrismicH.asHTML(section.primary.description)
 
-              figure.about__gallery__media
-                img.about__gallery__media__image(alt=section.primary.image.alt, src=section.primary.image.url)
+              figure.about__content__media
+                img.about__content__media__image(alt=section.primary.image.alt, src=section.primary.image.url)
 
         if section.slice_type == "hihglight"
           section.about__highlight 

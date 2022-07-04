@@ -5,7 +5,7 @@
 	"repository": "https://github.com/edbonamigo/floema-demo.git",
 	"homepage": "edubon.code",
 	"source": [
-		"src/index.html"
+		"src/index.js"
 	],
 	"type": "module",
 	"scripts": {
@@ -28,6 +28,7 @@
 		"eslint-plugin-promise": "^6.0.0",
 		"nodemon": "^2.0.18",
 		"parcel": "^2.6.2",
+		"parcel-namer-without-hash": "^0.0.1",
 		"pug": "^3.0.2"
 	},
 	"dependencies": {

@@ -12,13 +12,15 @@ import { client } from './config/prismicConfig.js'
 dotenv.config()
 
 const app = express()
-const port = 3000
+const port = 3001
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(methodOverride())
 app.use(errorHandler())
+app.use(express.static(path.join(__dirname, 'public')))
 
 const handleLinkResolver = (doc) => {
 	if (doc.type === 'about') {
@@ -56,10 +58,7 @@ app.use((req, res, next) => {
 
 // Set Pug as template engine
 app.set('view engine', 'pug')
-app.set(
-	'views',
-	path.join(path.dirname(fileURLToPath(import.meta.url)), 'views')
-)
+app.set('views', path.join(__dirname, 'views'))
 
 /**
  * ROUTES
