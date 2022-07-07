@@ -5,11 +5,25 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'dev'
 
+const dirApp = path.join(__dirname, 'app')
+const dirAssets = path.join(__dirname, 'assets')
+const dirStyles = path.join(__dirname, 'styles')
+const dirNode = 'node_modules'
+
 module.exports = {
 	context: __dirname,
-	entry: [path.resolve(__dirname, './app.js')],
+	entry: [
+		path.resolve(__dirname, './app.js'),
+		path.join(dirStyles, 'index.scss')
+	],
 	output: {
 		path: path.resolve(__dirname, 'public')
+	},
+
+	target: 'node',
+
+	resolve: {
+		modules: [dirNode, dirApp, dirAssets, dirStyles]
 	},
 
 	plugins: [
@@ -85,7 +99,7 @@ module.exports = {
 				loader: 'file-loader',
 				options: {
 					name(file) {
-						return '[hash].[ext]'
+						return '[contenthash].[ext]'
 					}
 				}
 			},

@@ -1,9 +1,9 @@
 {
 	"name": "floema",
 	"author": "Eduardo Bonamigo <edbmuller@gmail.com>",
-	"license": "ISC",
 	"repository": "https://github.com/edbonamigo/floema-demo.git",
 	"homepage": "edubon.code",
+	"license": "ISC",
 	"scripts": {
 		"start": "concurrently --kill-others \"yarn run backend:development\" \"yarn run frontend:development\"",
 		"backend:build": "node app.js",
