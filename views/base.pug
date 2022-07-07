@@ -7,9 +7,9 @@ html(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1")
 
     base(href="/")
-  
+
     title= meta.data.title
- 
+
     meta(name="description" content=meta.data.description)
 
     //- https://realfavicongenerator.net/
@@ -25,15 +25,13 @@ html(lang="en")
     meta(property="og:title" content=meta.data.title)
     meta(property="og:description" content=meta.data.description)
     meta(property="og:image" content=meta.data.image ? meta.data.image.url : "")
-    
+
     meta(property="twitter:card" content="sumary_large_image")
     meta(property="twitter:title" content=meta.data.title)
     meta(property="twitter:description" content=meta.data.description)
     meta(property="twitter:image" content=meta.data.image ? meta.data.image.url : "")
 
-    link(href="./dist/floema-demo.css" rel="stylesheet")
-
-  body 
+  body
     include ./partials/preloader
     include ./partials/navigation
 

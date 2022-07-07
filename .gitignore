@@ -1,7 +1,19 @@
+# System and generated files.
+.DS_Store
+.sass-cache
 .parcel-cache
 .vscode
-dist
-node_modules
 yarn-error.log
 yarn.lock
+
+# Directories.
+log/
+node_modules/
+public/
+
+# Enviroment variables.
 .env
+
+# Files.
+result.xml
+npm-debug.log

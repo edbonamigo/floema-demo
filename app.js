@@ -1,26 +1,9 @@
-import dotenv from 'dotenv'
-import path from 'path'
-import logger from 'morgan'
-import express from 'express'
-import errorHandler from 'errorhandler'
-import bodyParser from 'body-parser'
-import methodOverride from 'method-override'
-import { fileURLToPath } from 'url'
-import * as PrismicH from '@prismicio/helpers'
-import { client } from './config/prismicConfig.js'
+require('dotenv').config()
 
-dotenv.config()
+const PrismicH = require('@prismicio/helpers')
+const client = require('./prismicConfig.js')
 
-const app = express()
-const port = 3001
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-app.use(logger('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(methodOverride())
-app.use(errorHandler())
-app.use(express.static(path.join(__dirname, 'public')))
+const app = require('./appConfig')
 
 const handleLinkResolver = (doc) => {
 	if (doc.type === 'about') {
@@ -56,9 +39,10 @@ app.use((req, res, next) => {
 	next()
 })
 
-// Set Pug as template engine
-app.set('view engine', 'pug')
-app.set('views', path.join(__dirname, 'views'))
+app.listen(app.get('port'), () => {
+	console.log(`App listening on port ${app.get('port')}!
+  =======================`)
+})
 
 /**
  * ROUTES
@@ -122,9 +106,4 @@ app.get('/detail/:uid', async (req, res) => {
 		...defaults,
 		product
 	})
-})
-
-app.listen(port, () => {
-	console.log(`App listening on port ${port}!
-  =======================`)
 })

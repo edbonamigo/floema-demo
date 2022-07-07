@@ -1,11 +1,9 @@
 // node-fetch is used to make network requests to the Prismic Rest API.
 // In Node.js Prismic projects, you must provide a fetch method to the
 // Prismic client.
-import fetch from 'node-fetch'
-import * as prismic from '@prismicio/client'
-import dotenv from 'dotenv'
-
-dotenv.config()
+require('dotenv').config()
+const fetch = require('node-fetch')
+const prismic = require('@prismicio/client')
 
 const repoName = 'ed-floema' // Fill in your repository name.
 const accessToken = process.env.PRISMIC_ACCESS_TOKEN // If your repository is private, add an access token.
@@ -33,7 +31,7 @@ const routes = [
 	}
 ]
 
-export const client = prismic.createClient(repoName, {
+module.exports = prismic.createClient(repoName, {
 	fetch,
 	accessToken,
 	routes
