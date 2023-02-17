@@ -1,11 +1,14 @@
-const path = require('path')
-const webpack = require('webpack')
+import path from 'path'
+import { fileURLToPath } from 'url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
+import webpack from 'webpack'
+
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 
 const IS_DEVELOPMENT = process.env.NOVE_ENV === 'dev'
 
@@ -14,7 +17,7 @@ const dirAssets = path.join(__dirname, 'assets')
 const dirStyles = path.join(__dirname, 'styles')
 const disNode = 'node_modules'
 
-module.exports = {
+const config = {
   entry: [path.join(dirApp, 'index.js'), path.join(dirStyles, 'index.scss')],
   resolve: {
     modules: [dirApp, dirAssets, dirStyles, disNode],
@@ -121,3 +124,5 @@ module.exports = {
     ],
   },
 }
+
+export default config
