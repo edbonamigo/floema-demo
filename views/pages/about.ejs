@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', {meta: meta}) -%>
+
+<body>
+  <%- include('../partials/preloader') -%>
+  <div class="about">
+    <div class="about__wrapper">
+      <section class="about__gallery">
+        <div class="about__gallery__wrapper">
+
+          <% about.data.gallery.forEach(function(media) { %>
+          <figure class="about__gallery__media">
+            <img class="about__gallery__media__image" alt="<%= media.image.alt %>" src="<%= media.image.url %>" />
+          </figure>
+          <% }); 
+
+						about.data.body.forEach(function(slice) { 
+							if (slice.slice_type == 'title') { 
+					%>
+          <h2 class="about__title"><%= slice.primary.text %></h2>
+
+          <% } 
+						if (slice.slice_type == 'content') { 
+					%>
+          <section class="about__content">
+            <div class="about__content__wrapper">
+              <p class="about__content__label"><%= slice.primary.label %></p>
+              <div class="about__content__description">
+                <%= ctx.prismicH.asHTML(slice.primary.description) %>
+              </div>
+              <img class="about__content__image" src="<%= slice.primary.image.url %>">
+            </div>
+          </section>
+          <% } 
+					}); %>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+
+</html>

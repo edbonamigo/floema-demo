@@ -1,4 +1,5 @@
 import path from 'path'
+// Hack to enable __dirname on ES6 modules
 import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 

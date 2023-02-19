@@ -2,6 +2,7 @@ extends ../base.pug
 
 block variables
   - var template = 'home'
+  - var home = home
 
 block content
-  h1.home__title Home
+  h1.home__title #{home.id}
