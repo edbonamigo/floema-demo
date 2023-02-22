@@ -5,13 +5,11 @@ import * as prismicH from '@prismicio/helpers'
 import { client } from './config/prismicConfig.js'
 import dotenv from 'dotenv'
 
-// Global variables stored in: .env
-// Variables available trough: process.env.VARIABLE_NAME
+// Global variables stored in: .env | available trough: process.env.VARIABLE_NAME
 dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 3000
-// Hack to enable __dirname on ES6 modules
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // TODO:
@@ -20,31 +18,24 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 // X Fetch metadata in a middleware to be acessible in every route
 // -> Fetch data for each route
 
-const htmlSerializer = {
-  // Arguments can be destructured for each block type
-  paragraph: ({ s }) => `<p class="paragraph-class">${children}</p>`,
-}
-
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
-// Add a middleware function that runs on every route. It will inject
-// the prismic context to the locals so that we can access these in
-// our templates.
+// Make prismicH accesible in ejs templates
 app.use((req, res, next) => {
-  res.locals.ctx = {
-    prismicH,
-    htmlSerializer,
-  }
-  next()
+	res.locals.ctx = {
+		prismicH,
+	}
+	next()
 })
 
+// Middleware to get metadata
 app.use(async (req, res, next) => {
-  let document = await client.getByType('metadata')
-  let [meta] = document.results
+	let document = await client.getByType('metadata')
+	let [metadata] = document.results
 
-  res.locals.meta = meta
+	res.metadata = metadata
 
-  next()
+	next()
 })
 
 /**
@@ -52,47 +43,35 @@ app.use(async (req, res, next) => {
  */
 
 app.get('/', async (req, res) => {
-  let meta = res.locals.meta
-  let result = await client.getByType('home')
-  let [home] = result.results
-  res.render('index', { meta, home })
+	let meta = res.metadata
+	let result = await client.getByType('home')
+	let [home] = result.results
 
-  console.log(home.data)
+	res.render('pages/home', { meta, home })
 })
 
 app.get('/about', async (req, res) => {
-  let meta = res.locals.meta
-  let document = await client.getByType('about')
-  let [about] = document.results
+	let meta = res.metadata
+	let document = await client.getByType('about')
+	let [about] = document.results
 
-  about.data.body.forEach((slice) => {
-    if (slice.slice_type == 'content') {
-      console.log(slice.primary.label, slice.primary.image.url)
-    }
-  })
-
-  res.render('pages/about', {
-    meta,
-    about,
-  })
-
-  console.log(
-    '============================================================================='
-  )
+	res.render('pages/about', { meta, about })
 })
 
 app.get('/collection', (req, res) => {
-  let meta = res.locals.meta
+	let meta = res.metadata
 
-  res.render('pages/collection', { meta })
+	res.render('pages/collection', { meta })
 })
 
 app.get('/detail/:id', (req, res) => {
-  let meta = res.locals.meta
+	let meta = res.metadata
 
-  res.render('pages/detail', { meta })
+	res.render('pages/detail', { meta })
+
+	console.log('==============================')
 })
 
 app.listen(port, () => {
-  console.log(`>>>>>> Website online: http://localhost:${port} <<<<<<`)
+	console.log(`>>>>>> Website online: http://localhost:${port} <<<<<<`)
 })
