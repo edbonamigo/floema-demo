@@ -1,7 +1,13 @@
 import path from 'path'
+import { fileURLToPath } from 'url'
+import dotenv from 'dotenv'
+
+import logger from 'morgan'
 import express from 'express'
 import errorHandler from 'errorhandler'
-import { fileURLToPath } from 'url'
+import bodyParser from 'body-parser'
+import methodOverride from 'method-override'
+
 import * as prismicH from '@prismicio/helpers'
 import { client } from './config/prismicConfig.js'
 import dotenv from 'dotenv'
@@ -12,6 +18,12 @@ dotenv.config()
 const app = express()
 const port = process.env.PORT || 3000
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(methodOverride())
+app.use(errorHandler())
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
