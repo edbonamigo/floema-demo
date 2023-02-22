@@ -10,7 +10,7 @@ import methodOverride from 'method-override'
 
 import * as prismicH from '@prismicio/helpers'
 import { client } from './config/prismicConfig.js'
-import dotenv from 'dotenv'
+import stringNumbers from './app/utils/string-numbers.js'
 
 // Global variables stored in: .env | available trough: process.env.VARIABLE_NAME
 dotenv.config()
@@ -29,47 +29,65 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 // Make prismicH accesible in ejs templates
 app.use((req, res, next) => {
-	res.locals.ctx = {
+	res.locals = {
 		prismicH,
+		stringNumbers,
 	}
 	next()
 })
-app.use(errorHandler())
+
+app.use(async (req, res, next) => {
+	const meta = await client.getSingle('metadata')
+	const preloader = await client.getSingle('preloader')
+	res.locals.defaults = { meta, preloader }
+
+	next()
+})
 
 /**
  * Routes
  */
 
 app.get('/', async (req, res) => {
-	let meta = await client.getSingle('metadata')
-	let home = await client.getSingle('home')
+	const home = await client.getSingle('home')
 
-	res.render('pages/home', { meta, home })
+	res.render('pages/home', {
+		home,
+		...res.locals.defaults,
+	})
 })
 
 app.get('/about', async (req, res) => {
-	let meta = await client.getSingle('metadata')
-	let about = await client.getSingle('about')
+	const about = await client.getSingle('about')
 
-	res.render('pages/about', { meta, about })
+	res.render('pages/about', {
+		about,
+		...res.locals.defaults,
+	})
 })
 
-app.get('/collection', async (req, res) => {
-	let meta = await client.getSingle('metadata')
+app.get('/collections', async (req, res) => {
+	const collections = await client.getAllByType('collection', {
+		fetchLinks: 'product.image',
+	})
+	const home = await client.getSingle('home')
 
-	res.render('pages/collection', { meta })
+	res.render('pages/collections', {
+		collections,
+		home,
+		...res.locals.defaults,
+	})
 })
 
 app.get('/detail/:uid', async (req, res) => {
-	let meta = await client.getSingle('metadata')
-	let product = await client.getByUID('product', req.params.uid, {
+	const product = await client.getByUID('product', req.params.uid, {
 		fetchLinks: 'collection.title',
 	})
 
-	console.log(product.data)
-	console.log('==============================')
-
-	res.render('pages/detail', { meta, product })
+	res.render('pages/detail', {
+		product,
+		...res.locals.defaults,
+	})
 })
 
 app.listen(port, () => {

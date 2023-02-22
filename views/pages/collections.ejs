@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') -%>
+<%- include('../partials/navigation') -%>
+
+<body>
+  <%- include('../partials/preloader') -%>
+
+  <div class="collections">
+    <div class="collections__wrapper">
+
+      <% collections.forEach( (collection, index) => { %>
+
+      <div class="collections__titles__label"><%=`${home.data.collection} ${stringNumbers(index)}`%></div>
+      <div class="collections__titles__title"><%=collection.data.title%></div>
+
+      <% }) %>
+
+      <div class="collections__gallery">
+        <div class="collections__gallery__wrapper">
+
+          <% collections.forEach( collection => {
+            collection.data.products.forEach( product => { %>
+
+          <a href="" class="collections__gallery__media__link">
+            <figure class="collections__gallery__media">
+              <img alt="<%=product.item.data.image.alt%>" src="<%=product.item.data.image.url%>" class="collections__gallery__media__image">
+            </figure>
+          </a>
+
+          <% })
+          }) %>
+
+        </div>
+        <div class="collections__content">
+
+          <% collections.forEach( collection => { %>
+
+          <article class="collections__article">
+            <h2 class="collections__article__title"><%=collection.data.title%> Collection</h2>
+            <p class="collections__article__description"><%=collection.data.description%></p>
+          </article>
+
+          <% }) %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

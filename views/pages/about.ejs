@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('../partials/head', {meta: meta}) -%>
+<%- include('../partials/head') -%>
+<%- include('../partials/navigation') -%>
 
 <body>
   <%- include('../partials/preloader') -%>
@@ -32,7 +33,7 @@
         <div class="about__content__wrapper">
           <p class="about__content__label"><%= slice.primary.label %></p>
           <div class="about__content__description">
-            <%- ctx.prismicH.asHTML(slice.primary.description) %>
+            <%- prismicH.asHTML(slice.primary.description) %>
           </div>
           <img class="about__content__image" src="<%= slice.primary.image.url %>">
         </div>
