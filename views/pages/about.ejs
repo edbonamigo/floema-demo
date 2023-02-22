@@ -10,20 +10,22 @@
         <div class="about__gallery__wrapper">
 
           <% about.data.gallery.forEach(media => { %>
+
           <figure class="about__gallery__media">
             <img class="about__gallery__media__image" alt="<%= media.image.alt %>" src="<%= media.image.url %>" />
           </figure>
+
           <% }); %>
 
         </div>
       </section>
 
       <% about.data.body.forEach(slice => {
-
         if (slice.slice_type == 'title') { %>
-      <h2 class="about__title"><%= slice.primary.text %></h2>
-      <% } 
 
+      <h2 class="about__title"><%= slice.primary.text %></h2>
+
+      <% } 
         if (slice.slice_type == 'content') { %>
 
       <section class="about__content">
@@ -43,14 +45,19 @@
         <div class="about__highlight__wrapper">
 
           <% if (slice.primary.label) { %>
+
           <p class="about__highlight__label"><%= slice.primary.label %></p>
+
           <% } %>
 
           <h3 class="about__highlight__title"><%= slice.primary.title %></h3>
+
           <% slice.items.forEach(media => { %>
+
           <figure class="about__highlight__media">
             <img class="about__highlight__media__image" alt="<%= media.image.alt %>" src="<%= media.image.url %>" />
           </figure>
+
           <% }); %>
 
       </section>
@@ -63,9 +70,11 @@
         <div class="about__gallery__wrapper">
 
           <% slice.items.forEach(media => { %>
+
           <figure class="about__gallery__media">
             <img class="about__gallery__media__image" alt="<%= media.image.alt %>" src="<%= media.image.url %>" />
           </figure>
+
           <% }); %>
 
         </div>

@@ -1,5 +1,6 @@
 import path from 'path'
 import express from 'express'
+import errorHandler from 'errorhandler'
 import { fileURLToPath } from 'url'
 import * as prismicH from '@prismicio/helpers'
 import { client } from './config/prismicConfig.js'
@@ -12,12 +13,6 @@ const app = express()
 const port = process.env.PORT || 3000
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-// TODO:
-// X ES6 Modules
-// X Setup Prismic Rest API
-// X Fetch metadata in a middleware to be acessible in every route
-// -> Fetch data for each route
-
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 // Make prismicH accesible in ejs templates
@@ -27,51 +22,44 @@ app.use((req, res, next) => {
 	}
 	next()
 })
-
-// Middleware to get metadata
-app.use(async (req, res, next) => {
-	let document = await client.getByType('metadata')
-	let [metadata] = document.results
-
-	res.metadata = metadata
-
-	next()
-})
+app.use(errorHandler())
 
 /**
  * Routes
  */
 
 app.get('/', async (req, res) => {
-	let meta = res.metadata
-	let result = await client.getByType('home')
-	let [home] = result.results
+	let meta = await client.getSingle('metadata')
+	let home = await client.getSingle('home')
 
 	res.render('pages/home', { meta, home })
 })
 
 app.get('/about', async (req, res) => {
-	let meta = res.metadata
-	let document = await client.getByType('about')
-	let [about] = document.results
+	let meta = await client.getSingle('metadata')
+	let about = await client.getSingle('about')
 
 	res.render('pages/about', { meta, about })
 })
 
-app.get('/collection', (req, res) => {
-	let meta = res.metadata
+app.get('/collection', async (req, res) => {
+	let meta = await client.getSingle('metadata')
 
 	res.render('pages/collection', { meta })
 })
 
-app.get('/detail/:id', (req, res) => {
-	let meta = res.metadata
+app.get('/detail/:uid', async (req, res) => {
+	let meta = await client.getSingle('metadata')
+	let product = await client.getByUID('product', req.params.uid, {
+		fetchLinks: 'collection.title',
+	})
 
-	res.render('pages/detail', { meta })
-
+	console.log(product.data)
 	console.log('==============================')
+
+	res.render('pages/detail', { meta, product })
 })
 
 app.listen(port, () => {
-	console.log(`>>>>>> Website online: http://localhost:${port} <<<<<<`)
+	console.log(`>>> Website running at: http://localhost:${port} <<<`)
 })

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', {meta: meta}) -%>
+
+<body>
+  <%- include('../partials/preloader') -%>
+
+  <div class="detail">
+    <div class="detail__wrapper">
+      <figure class="detail__media__image">
+        <img alt="<%=product.data.image.alt%>" src="<%=product.data.image.url%>">
+      </figure>
+
+      <div class="detail__info">
+        <p class="detail__info__collection"><%=product.data.collection.data.title%></p>
+
+        <h1 class="detail__info__title"><%=product.data.title%></h1>
+
+        <div class="detail__info__content">
+          <div class="detail__info__highlights">
+
+            <% product.data.highlights.forEach( highlight => { %>
+
+            <p class="detail__info__highlight">
+              <svg class="detail__info__highlight__icon" use(xlink:href="sprite-<%=highlight.highlight_icon.toLowerCase()%>">
+              </svg>
+              <span class="detail__info__highlight"><%=highlight.highlight_text%></span>
+            </p>
+
+            <% }) %>
+
+          </div>
+          <div class="detail__info__list">
+
+            <% product.data.informations.forEach( item => { %>
+
+            <p class="detail__info__list ">
+              <strong class="detail__info__item__title"><%=item.information_label%></strong>
+              <span class="detail__info__item__description"><%=item.information_description%></span>
+            </p>
+
+            <% }) %>
+
+            <a href="<%=product.data.link_url.url%>" class="detail__info__link" target="_blank"><%=product.data.link_text%></a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
