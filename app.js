@@ -49,11 +49,15 @@ app.use(async (req, res, next) => {
  */
 
 app.get('/', async (req, res) => {
+	const collections = await client.getAllByType('collection', {
+		fetchLinks: 'product.image',
+	})
 	const home = await client.getSingle('home')
 
 	res.render('pages/home', {
-		home,
 		...res.locals.defaults,
+		collections,
+		home,
 	})
 })
 
@@ -61,8 +65,8 @@ app.get('/about', async (req, res) => {
 	const about = await client.getSingle('about')
 
 	res.render('pages/about', {
-		about,
 		...res.locals.defaults,
+		about,
 	})
 })
 
@@ -73,9 +77,9 @@ app.get('/collections', async (req, res) => {
 	const home = await client.getSingle('home')
 
 	res.render('pages/collections', {
+		...res.locals.defaults,
 		collections,
 		home,
-		...res.locals.defaults,
 	})
 })
 
@@ -85,8 +89,8 @@ app.get('/detail/:uid', async (req, res) => {
 	})
 
 	res.render('pages/detail', {
-		product,
 		...res.locals.defaults,
+		product,
 	})
 })
 

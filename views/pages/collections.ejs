@@ -8,21 +8,23 @@
 
   <div class="collections">
     <div class="collections__wrapper">
+      <div class="collections__titles">
 
-      <% collections.forEach( (collection, index) => { %>
+        <% collections.forEach( (collection, index) => { %>
 
-      <div class="collections__titles__label"><%=`${home.data.collection} ${stringNumbers(index)}`%></div>
-      <div class="collections__titles__title"><%=collection.data.title%></div>
+        <div class="collections__titles__label"><%=`${home.data.collection} ${stringNumbers(index)}`%></div>
+        <div class="collections__titles__title"><%=collection.data.title%></div>
 
-      <% }) %>
+        <% }) %>
 
+      </div>
       <div class="collections__gallery">
         <div class="collections__gallery__wrapper">
 
           <% collections.forEach( collection => {
             collection.data.products.forEach( product => { %>
 
-          <a href="" class="collections__gallery__media__link">
+          <a href="/detail/<%=product.item.slug%>" class="collections__gallery__media__link">
             <figure class="collections__gallery__media">
               <img alt="<%=product.item.data.image.alt%>" src="<%=product.item.data.image.url%>" class="collections__gallery__media__image">
             </figure>
