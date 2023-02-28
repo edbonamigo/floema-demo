@@ -26,7 +26,7 @@ app.use(methodOverride())
 app.use(errorHandler())
 
 app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
+app.set('view engine', 'pug')
 // Make prismicH accesible in ejs templates
 app.use((req, res, next) => {
 	res.locals = {

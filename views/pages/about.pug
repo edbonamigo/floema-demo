@@ -1,0 +1,49 @@
+extends ../base.pug
+
+block variables
+  - var template = 'about'
+
+block content
+  .about
+    .about__wrapper
+      section.about__gallery
+        .about__gallery__wrapper
+
+          each media in about.data.gallery
+            figure.about__gallery__media
+              img.about__gallery__media__image(alt=media.image.alt src=media.image.url)
+
+      each slice in about.data.body
+        if slice.slice_type == 'title'
+          h2.about__title=slice.primary.text
+      
+        if slice.slice_type == 'content'
+          section.about__content
+            .about__content__wrapper
+              p.about__content__label=slice.primary.label
+              .about__content__description
+                <%- prismicH.asHTML(slice.primary.description)
+              img.about__content__image(src=slice.primary.image.url)
+
+        if slice.slice_type == 'highlight'
+
+          section.about__highlight
+            .about__highlight__wrapper
+
+              if slice.primary.label
+                p.about__highlight__label=slice.primary.label
+
+              h3.about__highlight__title=slice.primary.title
+
+              each media in slice.items
+                figure.about__highlight__media
+                  img.about__highlight__media__image(alt=media.image.alt src=media.image.url)
+
+        if slice.slice_type == 'gallery'
+
+          section.about__gallery
+            .about__gallery__wrapper
+
+              each media in slice.items
+                figure.about__gallery__media
+                  img.about__gallery__media__image(alt=media.image.alt src=media.image.url)

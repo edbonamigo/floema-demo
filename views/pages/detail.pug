@@ -1,0 +1,32 @@
+extends ../base.pug
+
+block variables
+  - var template = 'collections'
+
+block content
+  .detail
+    .detail__wrapper
+      figure.detail__media
+        img.detail__media__image(alt=product.data.image.alt src=product.data.image.url)
+
+      .detail__info
+        p.detail__info__collection=product.data.collection.data.title
+
+        h1.detail__info__title=product.data.title
+
+        .detail__info__content
+          .detail__info__highlights
+            each highlight in product.data.highlights
+              p.detail__info__highlight
+                svg.detail__info__highlight__icon 
+                  use(xlink:href=sprite-=highlight.highlight_icon.toLowerCase())
+
+                span.detail__info__highlight=highlight.highlight_text 
+
+        .detail__info__list
+          each item in product.data.informations
+            p.detail__info__list 
+              strong.detail__info__item__title=item.information_label
+              span.detail__info__item__description=item.information_description
+              
+        a.detail__info__link(href=product.data.link_url.url target='_blank')=product.data.link_text
