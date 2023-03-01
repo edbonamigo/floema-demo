@@ -1,5 +1,5 @@
 // $index
-export default function stringNumbers(i) {
+const stringNumbers = (i) => {
 	return i == 0
 		? 'One'
 		: i == 1
@@ -20,3 +20,5 @@ export default function stringNumbers(i) {
 		? 'Nine'
 		: i == 9
 }
+
+module.exports = stringNumbers

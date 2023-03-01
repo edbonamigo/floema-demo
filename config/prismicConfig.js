@@ -1,9 +1,9 @@
 // node-fetch is used to make network requests to the Prismic Rest API.
 // In Node.js Prismic projects, you must provide a fetch method to the
 // Prismic client.
-import fetch from 'node-fetch'
-import * as prismic from '@prismicio/client'
-import dotenv from 'dotenv'
+const fetch = require('node-fetch')
+const prismic = require('@prismicio/client')
+const dotenv = require('dotenv')
 dotenv.config()
 
 const repoName = process.env.PRISMIC_REPO_NAME
@@ -16,8 +16,10 @@ const accessToken = process.env.PRISMIC_ACCESS_TOKEN
 // TODO: Need to create route for the types: metadata and preloader?
 const routes = []
 
-export const client = prismic.createClient(repoName, {
-  fetch,
-  accessToken,
-  routes,
+const client = prismic.createClient(repoName, {
+	fetch,
+	accessToken,
+	routes,
 })
+
+module.exports = { client }

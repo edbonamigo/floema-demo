@@ -1,19 +1,19 @@
-import path from 'path'
+const path = require('path')
 // Hack to enable __dirname on ES6 modules
-import { fileURLToPath } from 'url'
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-import { merge } from 'webpack-merge'
-import config from './webpack.config.js'
+const { merge } = require('webpack-merge')
+const config = require('./webpack.config.js')
 
-const configDev = merge(config, {
-  mode: 'development',
+module.exports = merge(config, {
+	mode: 'development',
 
-  devtool: 'inline-source-map',
+	devtool: 'inline-source-map',
 
-  output: {
-    path: path.resolve(__dirname, 'public'),
-  },
+	devServer: {
+		devMiddleware: {
+			index: true,
+			publicPath: '/public',
+			writeToDisk: true,
+		},
+	},
 })
-
-export default configDev

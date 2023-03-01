@@ -1,29 +1,28 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
-import dotenv from 'dotenv'
+const path = require('path')
+const dotenv = require('dotenv')
 
-import logger from 'morgan'
-import express from 'express'
-import errorHandler from 'errorhandler'
-import bodyParser from 'body-parser'
-import methodOverride from 'method-override'
+const logger = require('morgan')
+const express = require('express')
+const errorHandler = require('errorhandler')
+const methodOverride = require('method-override')
+const bodyParser = require('body-parser')
 
-import * as prismicH from '@prismicio/helpers'
-import { client } from './config/prismicConfig.js'
-import stringNumbers from './app/utils/string-numbers.js'
+const prismicH = require('@prismicio/helpers')
+const { client } = require('./config/prismicConfig.js')
+const stringNumbers = require('./app/utils/string-numbers.js')
 
 // Global variables stored in: .env | available trough: process.env.VARIABLE_NAME
 dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 3000
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(methodOverride())
 app.use(errorHandler())
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
