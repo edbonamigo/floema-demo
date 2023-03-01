@@ -22,7 +22,6 @@ block content
             .about__content__wrapper
               p.about__content__label=slice.primary.label
               .about__content__description
-                <%- prismicH.asHTML(slice.primary.description)
               img.about__content__image(src=slice.primary.image.url)
 
         if slice.slice_type == 'highlight'
