@@ -1,4 +1,8 @@
 body {
+	@extend %description-16;
 	font-family: $font-primary;
-	font-size: 1.6rem;
+
+	@include media('<phone') {
+		font-size: 200px;
+	}
 }

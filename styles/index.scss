@@ -1,11 +1,15 @@
 @import './utils/variables.scss';
 @import './utils/functions.scss';
 @import './utils/mixins.scss';
+@import './utils/responsive.scss';
 @import './utils/vendors.scss';
 
+@import './common/titles.scss';
+@import './common/description.scss';
+
+@import './base/reset.scss';
 @import './base/fonts.scss';
 @import './base/base.scss';
-@import './base/reset.scss';
 
 @import './pages/about/about';
 @import './pages/about/content';

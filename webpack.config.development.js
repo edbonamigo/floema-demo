@@ -11,9 +11,12 @@ module.exports = merge(config, {
 
 	devServer: {
 		devMiddleware: {
-			index: true,
 			publicPath: '/public',
 			writeToDisk: true,
 		},
+	},
+
+	output: {
+		path: path.resolve(__dirname, 'public'),
 	},
 })

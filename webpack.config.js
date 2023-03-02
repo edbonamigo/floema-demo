@@ -2,7 +2,6 @@ const path = require('path')
 const dotenv = require('dotenv')
 dotenv.config()
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -17,13 +16,17 @@ const dirStyles = path.join(__dirname, 'styles')
 const disNode = 'node_modules'
 
 module.exports = {
-	entry: [path.join(dirApp, 'index.js'), path.join(dirStyles, 'index.scss')],
+	entry: [
+		path.join(dirApp, 'index.js'), //
+		path.join(dirStyles, 'index.scss'),
+	],
 	resolve: {
-		modules: [dirApp, dirShared, dirStyles, disNode],
-	},
-	output: {
-		filename: 'bundle.js',
-		path: path.resolve(__dirname, 'public'),
+		modules: [
+			dirApp, //
+			dirShared,
+			dirStyles,
+			disNode,
+		],
 	},
 	plugins: [
 		new webpack.DefinePlugin({
@@ -41,7 +44,6 @@ module.exports = {
 			filename: '[name].css',
 			chunkFilename: '[id].css',
 		}),
-		new CleanWebpackPlugin(),
 	],
 	module: {
 		rules: [
@@ -80,7 +82,7 @@ module.exports = {
 				loader: 'file-loader',
 				options: {
 					name(file) {
-						return '[hash].[ext]'
+						return '[name].[ext]'
 					},
 				},
 			},
