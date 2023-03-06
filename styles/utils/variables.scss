@@ -1,9 +1,12 @@
-$color-black: #000;
-$color-white: #fff;
+$color-bright-gray: #37384c;
+$color-cadet-blue: #b2b8c3;
+$color-contessa: #c97164;
+$color-quarter-spanish-white: #f9f1e7;
+$color-quicksand: #bc978c;
 
 $font-primary: 'Suisse BP';
 $font-secondary: 'George X';
 
 $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 
-$z-indexes: ('navigation', 'content');
+$z-indexes: ('preloader', 'navigation', 'content');
