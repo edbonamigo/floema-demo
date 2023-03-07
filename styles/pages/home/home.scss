@@ -3,6 +3,7 @@
 	@extend %flex-center;
 
 	background: $color-contessa;
+	overflow: hidden;
 	text-align: center;
 
 	&::before,
@@ -52,7 +53,7 @@
 .home__gallery {
 	@extend %cover;
 
-	display: none;
+	visibility: hidden;
 }
 
 .home__gallery__media {
@@ -68,15 +69,29 @@
 	bottom: 5rem;
 	display: flex;
 	height: 6rem;
+	justify-content: center;
 	left: 50%;
 	letter-spacing: 0.05rem;
-	justify-content: center;
 	position: absolute;
-	transform: translateX(-50%);
 	text-transform: uppercase;
+	transform: translateX(-50%);
 	width: 28.8rem;
 	z-index: 2;
+
+	@include media('<phone') {
+		bottom: 7.5rem;
+		height: 13.7rem;
+		width: 55rem;
+	}
+}
+
+.home__link__text {
+	display: inline-block;
+	line-height: 1;
+	position: relative;
+	vertical-align: middle;
 }
 
 .home__link__icon {
+	@extend %cover;
 }

@@ -19,8 +19,14 @@ block content
                 figure.collections__gallery__media 
                   img.collections__gallery__media__image(alt=product.item.data.image.alt src=product.item.data.image.url)
 
-        .collections__content 
-          each collection, index in collections
-            article.collections__article(class=`${index === 0 ? 'collections__article--active' : ''}`)
-              h2.collections__article__title=`${collection.data.title} Collection`
-              p.collections__article__description=collection.data.description
+      .collections__content 
+        each collection, index in collections
+          article.collections__article(class=`${index === 0 ? 'collections__article--active' : ''}`)
+            h2.collections__article__title=`${collection.data.title} Collection`
+            p.collections__article__description=collection.data.description
+
+      .collections__mobile
+        each collection, index in collections
+          .collections__mobile__item
+            .collections__mobile__label!=`${home.data.collection}<br>${stringNumbers(index)}`
+            .collections__mobile__title=collection.data.title 

@@ -1,5 +1,4 @@
 const path = require('path')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 // Hack to enable __dirname on ES6 modules
 
 const { merge } = require('webpack-merge')
@@ -11,6 +10,4 @@ module.exports = merge(config, {
 	output: {
 		path: path.join(__dirname, 'public'),
 	},
-
-	plugins: [new CleanWebpackPlugin()],
 })

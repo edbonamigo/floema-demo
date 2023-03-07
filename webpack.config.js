@@ -2,6 +2,7 @@ const path = require('path')
 const dotenv = require('dotenv')
 dotenv.config()
 
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -44,6 +45,7 @@ module.exports = {
 			filename: '[name].css',
 			chunkFilename: '[id].css',
 		}),
+		new CleanWebpackPlugin(),
 	],
 	module: {
 		rules: [
