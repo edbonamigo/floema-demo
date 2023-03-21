@@ -14,6 +14,9 @@ module.exports = merge(config, {
 			publicPath: '/public',
 			writeToDisk: true,
 		},
+		client: {
+			logging: 'none',
+		},
 	},
 
 	output: {
