@@ -11,7 +11,7 @@ block content
 
           each media in about.data.gallery
             figure.about__gallery__media
-              img.about__gallery__media__image(alt=media.image.alt src=media.image.url)
+              img.about__gallery__media__image(alt=media.image.alt data-src=media.image.url)
 
       each slice in about.data.body
         if slice.slice_type == 'title'
@@ -26,7 +26,7 @@ block content
                 .about__content__description!=prismicH.asHTML(slice.primary.description)
               
               figure.about__content__media
-                img.about__content__media__image(src=slice.primary.image.url)
+                img.about__content__media__image(data-src=slice.primary.image.url)
 
         if slice.slice_type == 'highlight'
 
@@ -41,7 +41,7 @@ block content
               .about__highlight__medias
                 each media in slice.items
                   figure.about__highlight__media
-                    img.about__highlight__media__image(alt=media.image.alt src=media.image.url)
+                    img.about__highlight__media__image(alt=media.image.alt data-src=media.image.url)
 
         if slice.slice_type == 'gallery'
 
@@ -50,4 +50,4 @@ block content
 
               each media in slice.items
                 figure.about__gallery__media
-                  img.about__gallery__media__image(alt=media.image.alt src=media.image.url)
+                  img.about__gallery__media__image(alt=media.image.alt data-src=media.image.url)
