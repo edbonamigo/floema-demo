@@ -14,7 +14,6 @@ import About from './pages/About'
 import Collections from './pages/Collections'
 import Detail from './pages/Detail'
 import Home from './pages/Home'
-import { urlToHttpOptions } from 'url'
 
 class App {
 	constructor() {
@@ -22,7 +21,10 @@ class App {
 		this.createContent()
 		this.createPages()
 
+		this.addEventListeners()
 		this.addLinkListeners()
+
+		this.update()
 	}
 
 	createPreloader() {
@@ -45,14 +47,21 @@ class App {
 
 		this.page = this.pages[this.template]
 		this.page.create()
+	}
+
+	/**
+	 * Events.
+	 */
+	onPreloaded() {
+		this.preloader.destroy()
+
+		this.onResize()
+
 		this.page.show()
 	}
 
-	onPreloaded() {
-		this.preloader.destroy()
-	}
-
 	async onChange(url) {
+		this.page.hide()
 		const request = await window.fetch(url)
 
 		if (request.status === 200) {
@@ -70,12 +79,34 @@ class App {
 
 			this.page = this.pages[this.template]
 			this.page.create()
+
+			this.onResize()
+
 			this.page.show()
 
 			this.addLinkListeners()
 		} else {
 			console.log('Error')
 		}
+	}
+
+	onResize() {
+		this.page.onResize()
+	}
+
+	update() {
+		if (this.page && this.page.update) {
+			this.page.update()
+		}
+
+		this.frame = window.requestAnimationFrame(this.update.bind(this))
+	}
+
+	/**
+	 * Listeners.
+	 */
+	addEventListeners() {
+		window.addEventListener('resize', this.onResize.bind(this))
 	}
 
 	addLinkListeners() {
