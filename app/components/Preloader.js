@@ -19,6 +19,10 @@ export default class Preloader extends Component {
 			element: this.elements.title,
 			expression: '<br>',
 		})
+		split({
+			element: this.elements.title,
+			expression: '<br>',
+		}) // yep, need to be twice
 
 		this.elements.titleSpans = this.elements.title.querySelectorAll('span span')
 

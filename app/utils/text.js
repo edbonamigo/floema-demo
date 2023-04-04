@@ -28,12 +28,7 @@ export function split({ element, expression = ' ', append = true }) {
 			const isNotAndCharacter = span.textContent !== '&'
 			const isNotDashCharacter = span.textContent !== '-'
 
-			if (
-				isSingleLetter &&
-				isNotEmpty &&
-				isNotAndCharacter &&
-				isNotDashCharacter
-			) {
+			if (isSingleLetter && isNotEmpty && isNotAndCharacter && isNotDashCharacter) {
 				span.innerHTML = `${span.textContent}&nbsp;`
 			}
 		})
@@ -125,8 +120,6 @@ function parseLine(line) {
 	if (line === '' || line === ' ') {
 		return line
 	} else {
-		return line === '<br>'
-			? '<br>'
-			: `<span>${line}</span>` + (line.length > 1 ? ' ' : '')
+		return line === '<br>' ? '<br>' : `<span>${line}</span>` + (line.length > 1 ? ' ' : '')
 	}
 }
