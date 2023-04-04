@@ -20,11 +20,6 @@ export default class Preloader extends Component {
 			expression: '<br>',
 		})
 
-		split({
-			element: this.elements.title,
-			expression: '<br>',
-		})
-
 		this.elements.titleSpans = this.elements.title.querySelectorAll('span span')
 
 		this.length = 0
@@ -56,7 +51,7 @@ export default class Preloader extends Component {
 	onLoaded() {
 		return new Promise((resolve) => {
 			this.animateOut = GSAP.timeline({
-				delay: 1,
+				delay: 0.5,
 			})
 
 			this.animateOut.to(this.elements.titleSpans, {
